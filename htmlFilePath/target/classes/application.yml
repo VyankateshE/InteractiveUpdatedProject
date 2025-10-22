@@ -1,0 +1,20 @@
+server:
+  port: 9998
+  address: 192.168.0.221
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_home
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+cloudconvert:
+  api:
+    key: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYmI3YTU0M2RjMGM2MWMwYjZkZTJiYjg2MDFjMjJkNmFiNDQwNzUwOWRmNGMxZGFhODU5ZjA5YmNlNGViNTI2MjAwODVhYWE3ZGMwYzhjZDciLCJpYXQiOjE3NjA2NzgxODAuNDk4OTM0LCJuYmYiOjE3NjA2NzgxODAuNDk4OTM1LCJleHAiOjQ5MTYzNTE3ODAuNDk1NzQ2LCJzdWIiOiI3MzIxMTc5NyIsInNjb3BlcyI6WyJ1c2VyLnJlYWQiLCJ1c2VyLndyaXRlIiwidGFzay5yZWFkIiwidGFzay53cml0ZSIsIndlYmhvb2sucmVhZCIsIndlYmhvb2sud3JpdGUiLCJwcmVzZXQucmVhZCIsInByZXNldC53cml0ZSJdfQ.mWZhPyOVYc0DkUkp1JLKVl-icHcvTiJrA0BQXhE1rChPHPY8GrnTkpNoyd-hRsirQIU-kpUUjj5oD1ee5hF5dLt9ahu-29ebhTgD2s7kaYzFgZoKV-DwF7wCkmp7-xqxRjIAeBk6RBKWb-EZZGeoKXStsjqD6FmaAxut2i_qM7YN4uRtE0XfxXTSz6AZatP3KiGOs1TGa58JAiiIadLpc3-Ja5NGN_1tU-z87CH0F_0k5NiqRJTerO1F9SN6J_aXHN7IEUw4_ZJ14eTtk8LSTyfecjUVOl1zusWadMF7Hv4RH9jrpdlvPZAJVrebJRVrcFKPom4HNjiZfAzs9LHXuSX3QsuKM0XxPYgQ4360Kz-Dg-6nGaXsclnijk6nNb0fKJsQ8eIEbc9ixaMcSxK5PbZZ6WeI6h89yQ-OSJrxxdtNOfi237tVpBQJ1oOQs260IUW6Ud6nh6iupcP6X_pnN16ICVOrie3_suYyMrudYo5lVIfBMPAUjJ3KY_F8u_OQMu6GsdV8L6bEZnlbuGYPRY-bveWu0E555uu5RymJTNTd8HgGS__dcaKYfTPl_GYC48XfM3wscPa325tT6oXlBtUgAV1TVubekBKtbsjrLboDb99YdM7lh8CY1CBJM2zxSlxhCoZMPNrAbClRk2P8k7lvOgK7lpTbpsvPjb2Ik84

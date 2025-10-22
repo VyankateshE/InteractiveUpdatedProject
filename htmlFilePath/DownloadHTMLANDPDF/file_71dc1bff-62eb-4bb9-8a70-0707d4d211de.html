@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <style>/*<![CDATA[*/
+* { box-sizing: border-box; } body {margin: 0;}#ir61{padding:10px;json-file-index:2;my-input-json:user1.CUSTOMER_NAME;}
+/*]]>*/</style>
+ </head>
+ <body><div id="encrypted-content">2r7PpdolDsATIeWNfrRggjiP+OFYe9oIbZwIYF/vmtVl5C8VzkH10V+CjMouyrM0y4rfeOnckw9g1QKn6U0oya2WB0M=</div><script>
+async function decryptAES(encryptedBase64, password) {
+    function base64ToArrayBuffer(base64) {
+        var binary_string = atob(base64);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes;
+    }
+    const encryptedBytes = base64ToArrayBuffer(encryptedBase64);
+    const iv = encryptedBytes.slice(0, 12);
+    const data = encryptedBytes.slice(12);
+    const keyBytes = new Uint8Array(32);
+    const passwordBytes = new TextEncoder().encode(password);
+    keyBytes.set(passwordBytes.slice(0, Math.min(32, passwordBytes.length)));
+    const cryptoKey = await crypto.subtle.importKey('raw', keyBytes, {name:'AES-GCM'}, false, ['decrypt']);
+    const decrypted = await crypto.subtle.decrypt({name:'AES-GCM', iv: iv}, cryptoKey, data);
+    return new TextDecoder().decode(decrypted);
+}
+(async()=>{
+  try {
+    var pass = prompt('Enter password to view content:');
+    var decrypted = await decryptAES(document.getElementById('encrypted-content').textContent, pass);
+    document.body.innerHTML = decrypted;
+    // Re-run any script tags inside decrypted HTML
+    const scripts = document.body.querySelectorAll('script');
+    scripts.forEach(oldScript => {
+        const newScript = document.createElement('script');
+        if (oldScript.src) {
+            newScript.src = oldScript.src;
+        } else {
+            newScript.textContent = oldScript.textContent;
+        }
+        document.body.appendChild(newScript);
+    });
+  } catch(e){
+    document.body.innerHTML='<h2>Access Denied</h2>';
+    console.error(e);
+  }
+})();
+</script></body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Encrypted Page</title></head><body><div id='encrypted-content' style='display:none;'>EKJMgYTUq7+/PVWnx04kkHu4GW4inIxBQI4BQS5xdN/NnwbOo3Q9w+RF3ks50lfU9PiUMqXzBm6IT+8yzByBCkOBiqo0uREq+j+Am/6sYddyDuCI7Ee51xmYce0AcnmkAWFaZgDyBeRb7ESHBH/yUEBzMWEVoVNSm8QTubis5TQql7wp+xE6Hy4m4y4jxbi6OlJCUfIiUTiRnqXyjTtlGasp04483U4n664a04e5Ugq2h8dgHPM8ZQqt0VQw3OI30vBaz7EfGVkT+rOT/h29P8gkCXNZvadQ0r50GSHsdfBaWZ285RHBcozWGrLQ10JUA5JcqvnRxPH4Bc1lVMtm662ryW58Q856/n1YJKdyWx1MSiPavTCAkt/d77LSIHNK</div><script>
+async function decryptAES(encryptedBase64, keyString) {
+  function base64ToArrayBuffer(base64) {
+    var binary_string = atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) bytes[i] = binary_string.charCodeAt(i);
+    return bytes;
+  }
+  const encryptedBytes = base64ToArrayBuffer(encryptedBase64);
+  const iv = encryptedBytes.slice(0, 12);
+  const data = encryptedBytes.slice(12);
+  const keyBytes = new Uint8Array(32);
+  const passwordBytes = new TextEncoder().encode(keyString);
+  keyBytes.set(passwordBytes.slice(0, Math.min(32, passwordBytes.length)));
+  const cryptoKey = await crypto.subtle.importKey('raw', keyBytes, {name:'AES-GCM'}, false, ['decrypt']);
+  const decrypted = await crypto.subtle.decrypt({name:'AES-GCM', iv: iv}, cryptoKey, data);
+  return new TextDecoder().decode(decrypted);
+}
+(async()=>{
+  try {
+    var pass = prompt('Enter password to view content:');
+    var decrypted = await decryptAES(document.getElementById('encrypted-content').textContent, pass);
+    document.open(); document.write(decrypted); document.close();
+  } catch(e){ document.body.innerHTML='<h2>Access Denied</h2>'; console.error(e); }
+})();
+</script></body></html>
